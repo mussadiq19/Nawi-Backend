@@ -1,3 +1,11 @@
 spring:
   application:
-    name:NawiBackend
+    name: NawiBackend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/nawidb
+    username: luffy
+    password: ${db_password}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
