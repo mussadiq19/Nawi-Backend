@@ -1,0 +1,34 @@
+package com.example.nawibackend.common.models;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.*;
+
+import java.math.BigDecimal;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class TiltingObservation {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "session_id", nullable = false)
+    private TestSession session;
+
+    private Integer position;
+    private BigDecimal loadLevel;
+
+    private BigDecimal indication, additionalLoad;
+    private BigDecimal error, correctedError, mpe;
+
+    private BigDecimal maxDifferenceFromReference;
+}
