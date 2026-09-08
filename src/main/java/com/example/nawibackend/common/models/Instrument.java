@@ -46,9 +46,6 @@ public class Instrument {
     private BigDecimal min;
 
     @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "e_primary"))
-    })
     private ScaleIntervalSet primaryScale;
 
     @ElementCollection
@@ -85,7 +82,6 @@ public class Instrument {
     private LocalDate dateOfReport;
     private String remarks;
 }
-
 
 
 

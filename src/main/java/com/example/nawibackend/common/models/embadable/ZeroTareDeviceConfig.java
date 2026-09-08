@@ -1,7 +1,13 @@
 package com.example.nawibackend.common.models.embadable;
 
 import jakarta.persistence.Embeddable;
+import lombok.*;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class ZeroTareDeviceConfig {
     private boolean nonAutomaticZeroSetting;
