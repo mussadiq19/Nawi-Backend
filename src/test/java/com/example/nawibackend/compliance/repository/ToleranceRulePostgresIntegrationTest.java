@@ -2,7 +2,6 @@ package com.example.nawibackend.compliance.repository;
 
 import com.example.nawibackend.common.models.enums.AccuracyClass;
 import com.example.nawibackend.common.models.enums.TestType;
-import com.example.nawibackend.common.models.enums.ToleranceContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +34,7 @@ class ToleranceRulePostgresIntegrationTest {
     @Test
     void migratesAndReadsClassThreeTableSixRulesOnPostgresql() {
         assertEquals(3, repository
-                .findByOimlEditionAndContextAndAccuracyClassAndTestTypeOrderByLoadRangeMinAsc(
-                        "R76-1:2006", ToleranceContext.INITIAL_VERIFICATION,
-                        AccuracyClass.III, TestType.WEIGHING_PERFORMANCE)
+                .findByAccuracyClassAndTestType(AccuracyClass.III, TestType.WEIGHING_PERFORMANCE)
                 .size());
     }
 }

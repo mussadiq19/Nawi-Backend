@@ -8,23 +8,29 @@ import java.util.regex.Pattern;
 
 @Component
 public class MpeFormulaEvaluator {
-    private static final Pattern MULTIPLIER_PATTERN =
-            Pattern.compile("^\\s*([+-]?(?:\\d+(?:\\.\\d+)?|\\.\\d+))\\s*([eE])\\s*$");
+
+    // Matches a decimal multiplier followed by a lowercase 'e', with no other content,
+    // e.g. "0.5e", "1.0e", "1.5e", "0.75e", "2.5e". The decimal point is required so
+    // the formula stays canonical ("1e" is rejected, not silently treated as "1.0e").
+    // Uppercase "1.5E" is intentionally rejected since OIML R76 writes the scale
+    // interval as lowercase 'e'.
+    private static final Pattern DECIMAL_E_PATTERN = Pattern.compile("([0-9]+\\.[0-9]+)e");
 
     public BigDecimal evaluate(String mpeFormula, BigDecimal scaleIntervalE) {
-        if (scaleIntervalE == null) {
-            throw new IllegalArgumentException("Scale interval is required to evaluate an mpe formula.");
+        if (scaleIntervalE == null || scaleIntervalE.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Verification scale interval (e) must be positive to evaluate an MPE formula.");
         }
 
         if (mpeFormula == null || mpeFormula.isBlank()) {
             throw new IllegalArgumentException("MPE formula is required.");
         }
 
-        Matcher matcher = MULTIPLIER_PATTERN.matcher(mpeFormula.trim());
+        Matcher matcher = DECIMAL_E_PATTERN.matcher(mpeFormula);
         if (!matcher.matches()) {
             throw new IllegalArgumentException(
-                    "Unsupported mpe formula: " + mpeFormula +
-                            " — expected format like '0.5e' or '1.0e'"
+                    "Unsupported MPE formula: " + mpeFormula
+                            + " — expected a '<decimal>e' formula such as \"0.5e\", \"1.0e\", or \"1.5e\". "
+                            + "Percentage and fixed-value formulas are not supported."
             );
         }
 

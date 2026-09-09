@@ -45,6 +45,9 @@ public class Instrument {
 
     private BigDecimal min;
 
+    /** Required to determine whether R76-1 3.4 auxiliary-device rules apply. */
+    private Boolean auxiliaryIndicatingDevice;
+
     @Embedded
     private ScaleIntervalSet primaryScale;
 
@@ -82,6 +85,5 @@ public class Instrument {
     private LocalDate dateOfReport;
     private String remarks;
 }
-
 
 
