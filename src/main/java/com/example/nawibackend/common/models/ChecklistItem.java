@@ -22,4 +22,5 @@ public class ChecklistItem {
     private String description;
     @Column(nullable = false)
     private String category;
+    //Just testing with discord
 }
